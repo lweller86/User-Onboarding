@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import formSchema from '../Validation/formSchema';
+import App from '../App';
 
 const Form = (props) => {
     const { change, submit, errors } = props;
@@ -10,6 +12,14 @@ const Form = (props) => {
         change(name, newVal);
 
     }
+    const [disabled, setDisabled] = useState(true)
+
+    useEffect(() => {
+        formSchema.isValid(props.values).then(valid => {
+          setDisabled(!valid);
+        });
+      }, [props.values] );
+   
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -58,11 +68,11 @@ const Form = (props) => {
                       />
                </label>
                <label>
-                    <input
-                          type="submit"
-                          value="Create a new user"
-                       
-                          />
+                    <button id ="submitBtn"
+                           disabled={disabled}
+                        
+                          >Create a new user
+                            </button>
                </label>
             </form>
         </div>

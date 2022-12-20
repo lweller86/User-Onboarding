@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Form from './Components/Form';
 import * as yup from 'yup';
 import axios from 'axios'
 import schema from './Validation/formSchema';
+import formSchema from './Validation/formSchema';
 
 const initialFormValues = {
   username: "",
@@ -33,11 +34,14 @@ function App() {
       .finally(() => setFormValues(initialFormValues))
   }
 
+
+
   const validate = (name, value) => {
     yup.reach(schema, name)
       .validate(value)
       .then(() => setFormErrors({ ...formErrors, [name]: '' }))
       .catch(err => setFormErrors({ ...formErrors, [name]: err.errors[0] }))
+      
   }
   const handleChange = (name, value) => {
     validate(name, value);
